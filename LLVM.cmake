@@ -46,7 +46,7 @@ if(WIN32 AND TARGET LLVMDebugInfoPDB)
   get_target_property(LLVMDebugInfoPDB_LIBS LLVMDebugInfoPDB INTERFACE_LINK_LIBRARIES)
 
   foreach(LLVMDebugInfoPDB_LIB ${LLVMDebugInfoPDB_LIBS})
-    if(LLVMDebugInfoPDB_LIB MATCHES ".*diaguids.lib.*")
+    if(LLVMDebugInfoPDB_LIB MATCHES ".*diaguids\.lib.*")
       list(REMOVE_ITEM LLVMDebugInfoPDB_LIBS "${LLVMDebugInfoPDB_LIB}")
       list(APPEND LLVMDebugInfoPDB_LIBS "diaguids.lib")
       break()
