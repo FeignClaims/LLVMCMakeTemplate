@@ -1,5 +1,5 @@
-# This is an INTERFACE target for LLVM, usage:
-#   target_link_libraries(${PROJECT_NAME} <PRIVATE|PUBLIC|INTERFACE> LLVM-Wrapper)
+# This is an INTERFACE target for Clang, usage:
+#   target_link_libraries(${PROJECT_NAME} <PRIVATE|PUBLIC|INTERFACE> Clang-Wrapper)
 # The include directories and compile definitions will be properly handled.
 include_guard()
 
@@ -19,7 +19,8 @@ set(CLANG_LIBRARIES "")
 foreach(target IN LISTS CLANG_EXPORTED_TARGETS)
   get_target_property(target_type ${target} TYPE)
 
-  if(NOT(target_type STREQUAL "EXECUTABLE"))
+  # Executables and clangAnalysis* are not included
+  if(NOT(target_type STREQUAL "EXECUTABLE") AND NOT(target MATCHES ".*clangAnalysis.*"))
     list(APPEND CLANG_LIBRARIES ${target})
   endif()
 endforeach()
@@ -31,11 +32,9 @@ message(STATUS "Clang includes: ${CLANG_INCLUDE_DIRS}")
 add_library(Clang-Wrapper INTERFACE)
 target_include_directories(Clang-Wrapper SYSTEM INTERFACE ${CLANG_INCLUDE_DIRS})
 
-# For LLVM: https://github.com/JonathanSalwan/Triton/issues/1082#issuecomment-1030826696
-# This variable also exists for Clang, but I don't know what the target is called
-if(CLANG_LINK_LLVM_DYLIB)
-  message(FATAL_ERROR "Untested scenario, remove this and see if it works")
-  target_link_libraries(Clang-Wrapper INTERFACE Clang)
+if(CLANG_LINK_CLANG_DYLIB)
+  # target_link_libraries(Clang-Wrapper INTERFACE clang-cpp)  # Official way?
+  target_link_libraries(Clang-Wrapper INTERFACE ${CLANG_LIBRARIES})
 else()
   target_link_libraries(Clang-Wrapper INTERFACE ${CLANG_LIBRARIES})
 endif()
