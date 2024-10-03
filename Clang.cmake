@@ -17,6 +17,10 @@ find_package(Clang REQUIRED CONFIG)
 set(CLANG_LIBRARIES "")
 
 foreach(target IN LISTS CLANG_EXPORTED_TARGETS)
+  if(NOT TARGET ${target})
+    continue()
+  endif()
+
   get_target_property(target_type ${target} TYPE)
 
   # Executables and clangAnalysis* are not included
