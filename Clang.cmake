@@ -12,7 +12,11 @@ else()
 endif()
 
 # Find Clang
-find_package(Clang REQUIRED CONFIG)
+find_package(Clang CONFIG)
+
+if(NOT Clang_FOUND)
+  return()
+endif()
 
 set(CLANG_LIBRARIES "")
 

@@ -8,4 +8,7 @@ if(NOT TARGET llvm::llvm)
 endif()
 
 set_property(TARGET llvm::llvm PROPERTY INTERFACE_LINK_LIBRARIES LLVM-Wrapper APPEND)
-set_property(TARGET llvm::llvm PROPERTY INTERFACE_LINK_LIBRARIES Clang-Wrapper APPEND)
+
+if(TARGET Clang-Wrapper)
+  set_property(TARGET llvm::llvm PROPERTY INTERFACE_LINK_LIBRARIES Clang-Wrapper APPEND)
+endif()
