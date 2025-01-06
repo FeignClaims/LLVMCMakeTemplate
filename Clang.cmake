@@ -1,5 +1,5 @@
 # This is an INTERFACE target for Clang, usage:
-#   target_link_libraries(${PROJECT_NAME} <PRIVATE|PUBLIC|INTERFACE> Clang-Wrapper)
+# target_link_libraries(${PROJECT_NAME} <PRIVATE|PUBLIC|INTERFACE> Clang-Wrapper)
 # The include directories and compile definitions will be properly handled.
 include_guard()
 
@@ -32,6 +32,12 @@ foreach(target IN LISTS CLANG_EXPORTED_TARGETS)
     list(APPEND CLANG_LIBRARIES ${target})
   endif()
 endforeach()
+
+list(FIND CLANG_LIBRARIES codegen clangCodeGen)
+if(codegen GREATER_EQUAL 0)
+  list(REMOVE_AT CLANG_LIBRARIES codegen)
+  list(APPEND CLANG_LIBRARIES clangCodeGen)
+endif()
 
 message(STATUS "Using ClangConfig.cmake in: ${CLANG_CMAKE_DIR}")
 message(STATUS "Clang libraries: ${CLANG_LIBRARIES}")
