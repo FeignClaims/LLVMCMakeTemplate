@@ -47,8 +47,8 @@ add_library(Clang-Wrapper INTERFACE)
 target_include_directories(Clang-Wrapper SYSTEM INTERFACE ${CLANG_INCLUDE_DIRS})
 
 if(CLANG_LINK_CLANG_DYLIB)
-  # target_link_libraries(Clang-Wrapper INTERFACE clang-cpp)  # Official way?
-  target_link_libraries(Clang-Wrapper INTERFACE ${CLANG_LIBRARIES})
+  target_link_libraries(Clang-Wrapper INTERFACE clang-cpp)  # Official way?
+  # target_link_libraries(Clang-Wrapper INTERFACE ${CLANG_LIBRARIES})
 else()
   target_link_libraries(Clang-Wrapper INTERFACE ${CLANG_LIBRARIES})
 endif()
